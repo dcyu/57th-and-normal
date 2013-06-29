@@ -82,6 +82,20 @@ iframe {
 .logo a {
   color: #fff;
 }
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: auto;
+}
+
+input[type="range"] {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
 .nav {
   position: absolute;
   top: 0;
@@ -106,13 +120,12 @@ iframe {
 .nav-list li a {
   color: #fff;
 }
-.right {
-  right: 1em;
-}
-
 .page {
   display: inline-block;
   width: 1500px;
+}
+.right {
+  right: 1em;
 }
 .title {
   font-size: 5em;
@@ -187,4 +200,3 @@ Include jquery.openCarousel.js and jquery.openCarousel.css in your projects
 }
 .ocarousel_indicators svg circle {
     cursor: pointer;
-}
