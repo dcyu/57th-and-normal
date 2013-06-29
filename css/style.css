@@ -95,6 +95,16 @@ input[type="range"] {
   bottom: 200px;
   left: 20px;
 }
+
+.interval {
+  position: fixed;
+  bottom: 230px;
+  left: 20px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+
 .nav {
   position: absolute;
   top: 0;
