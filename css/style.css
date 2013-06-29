@@ -1,19 +1,69 @@
-.container {
+a {
+  text-decoration: none;
+}
+body {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
+.cover {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -5;
+}
+.cover img {
+  width: 100%;
+  height: auto;
+}
+.carousel-link {
+  font-size: 5em;
+  margin: 1em;
+}
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: none;
 }
 html {
+  width: 100%;
+  height: 100%;
   font-size: 16px;
+  font-family: Helvetica, sans-serif;
 }
 
 h2 {
-  margin-top: 500px;
+  margin-top: 100px;
+}
+.hook {
+  background-image: url('../img/banner.png'); 
+}
+.hook h2 {
+  font-size: 5em;
+  color: #fff;
+}
+.left {
+  float: left;
+}
+#link {
 }
 .logo {
   display: inline;
   float: left;
+  font-family: 'Pathway Gothic One', sans-serif;
+  margin: 0.2em;
 }
-
+.logo a {
+  color: #fff;
+}
 .nav {
   position: absolute;
   top: 0;
@@ -21,10 +71,37 @@ h2 {
   width: 100%;
   background-color: #000;
   color: #fff;
+  height: 3.5em;
+  z-index: 5;
 }
 .nav-list {
   float: right;
 }
 .nav-list li {
+  text-decoration: underline;
+  margin: 1em;
   display: inline;
+}
+.right {
+  float: right;
+}
+.ocarousel {
+  background-image: url('../img/banner.png'); 
+  color: #fff;
+  height: 100%;
+  width: 100%;
+}
+.ocarousel_window {
+  max-width: 1000px;
+  position: relative;
+  top: 6em;
+}
+.page {
+  display: inline-block;
+  width: 1000px;
+}
+.title {
+  font-size: 5em;
+  font-weight: 800;
+
 }
