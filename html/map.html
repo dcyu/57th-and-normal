@@ -10,16 +10,14 @@
   <link href='http://fonts.googleapis.com/css?family=Pathway+Gothic+One' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-  <script type="text/javascript" src="../js/leaflet/leaflet.js"></script>  
+  <script type="text/javascript" src="../js/leaflet/leaflet.js"></script>
+  
   <script src="../js/main.js"></script>
   
   <title>57th and Normal</title>
 </head>
 
 <body>
-  <div class="cover">
-    <img src="../img/twohouses.jpg" alt="">
-  </div>
   <div class="nav">
     <h1 class="logo"><a href="home.html">57th and Normal</a></h1>
     <ul class="nav-list">
@@ -28,9 +26,15 @@
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
-  </div>  
+  </div> 
+
+  <div class="legend">
+    
+  </div>
 
   <div id="map"></div>
-
+    <label for="scale" id="scale-label">Travel through time</label>
+    <input type="range" min="0" max="20" step="1" value="0" id="scale">
+  </div>
 </body>
 </html>

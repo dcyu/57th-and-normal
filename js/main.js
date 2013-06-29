@@ -67,13 +67,13 @@
     dfd1 = new $.Deferred();
     dfd2 = new $.Deferred();
     $.when(dfd1, dfd2).done(createVisualization);
-    $.getJSON('../scripts/data/intervals.json').done(function(data) {
+    $.getJSON('../data/intervals.json').done(function(data) {
       return dfd1.resolve(data);
     });
-    $.getJSON('../scripts/data/deeds.json').done(function(data) {
+    $.getJSON('../data/deeds.json').done(function(data) {
       return dfd2.resolve(data);
     });
-    return $.getJSON('../scripts/data/englewood.geojson').done(function(data) {
+    return $.getJSON('../data/englewood.geojson').done(function(data) {
       return L.geoJson(data).addTo(map);
     });
   };
