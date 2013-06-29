@@ -1,16 +1,54 @@
 
 map = null
 markerLayer = null
+blueIcon = null
+redIcon = null
 
 intervals = ['2005', '2006', '2007', '2008', '2009', '2010q1', '2010q2', '2010q3', '2010q4', '2011q1', '2011q2', '2011q3', '2011q4', '2012q1', '2012q2', '2012q3', '2012q4', '2013q1', '2013q2', '2013q3', '2013q4']
 
+NS = [
+  'NORFOLK SOUTHERN RAILWAY CO'
+  'NORFOLK & SOUTHERN RAILROAD CORP'
+  'NORFOLK & SOUTHERN RAILWAY ILLINOIS CONSTRUCTION C'
+  'NORFOLK SOUTHER RAILWAY CO'
+  'NORFOLK SOUTHERN CORP'
+  'NORFOLK SOUTHERN RAILRAY CO'
+  'NORFOLK SOUTHERN RAILROAD'
+  'NORFOLK SOUTHERN RAILROAD CORP'
+  'NORFOLK SOUTHERN RAILWAY'
+  'NORFOLK SOUTHERN RAILWAY COMPANY'
+  'NORFOLK SOUTHERN RAILWAY COMPANY'
+  'NORFOLK SOUTHERN RAILWAY INC'
+  'NORFOLK SOUTHTERN RAILWAY CO'
+  'NORTHFOLK SOUTHERN RAILWAY CO'
+]
+
+
+createLeafletIcons = ->
+  blueIcon = L.icon({
+    iconUrl: '../js/leaflet/images/button_blue.png'
+    iconSize: [25, 25]
+    iconAnchor: [12, 12]
+  })
+  
+  redIcon = L.icon({
+    iconUrl: '../js/leaflet/images/button_red.png'
+    iconSize: [25, 25]
+    iconAnchor: [12, 12]
+  })
 
 createVisualization = (d1, d2) ->
+  
+  createLeafletIcons()
+  
   markerLayer = new L.LayerGroup()
   
   # Start at 2005
-  pins = d1['2011q4']
-  for pin in pins
+  data = d1['2011q4']
+  
+  for obj in data
+    pin = obj.pin
+    
     datum = d2[pin]
     
     lat = datum.lat
@@ -23,33 +61,42 @@ createVisualization = (d1, d2) ->
       for key, value of deed
         s += "#{pin}, #{key}, #{value}"
       s += "<br>"
-    L.marker([lat, lon]).addTo(markerLayer)
+    L.marker([lat, lon], icon: blueIcon).addTo(markerLayer)
       .bindPopup(s)
   
   markerLayer.addTo(map)
   
   $("input[type='range']").on('change', (e) ->
-    interval = intervals[e.target.value]
+    index = e.target.value
+    
+    interval = intervals[index]
+    
+    $('.interval p').text(interval)
     
     # Clear the layer
     markerLayer.clearLayers()
     
-    console.log interval
-    pins = d1[interval]
-    for pin in pins
+    # Get list of pins and loop
+    data = d1[interval]
+    
+    for obj in data
+      pin = obj.pin
+      grantee = obj['first-grantee']
+      
+      icon = if grantee in NS then redIcon else blueIcon
       datum = d2[pin]
-
+      
       lat = datum.lat
       lon = datum.lon
-
-      # Format deeds
       deeds = datum.deeds
+      
+      # Format deeds
       s = ""
       for deed in deeds
         for key, value of deed
           s += "#{pin}, #{key}, #{value}"
         s += "<br>"
-      L.marker([lat, lon]).addTo(markerLayer)
+      L.marker([lat, lon], icon: icon).addTo(markerLayer)
         .bindPopup(s)
   )
   

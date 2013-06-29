@@ -5,7 +5,7 @@ require 'json'
 require 'date'
 require "awesome_print"
 
-pins = JSON.parse File.read("data/deeds.json")
+pins = JSON.parse File.read("../data/deeds.json")
 
 dates = []
 
@@ -61,23 +61,24 @@ ranges = {
   '2013q4' => Date.new(2013, 10, 1)..Date.new(2013, 12, 31)
 }
 
-# d = Date.new(2005, 1, 1)
-# puts d
-# puts range2005.cover?(d)
-
 pins.each do |pin, values|
   values['deeds'].each do |deed|
     date = deed['recorded-date'].split('/')
     month = date[0]
     day = date[1]
     year = date[2]
+    grantee = deed['first-grantee']
     
     date = Date.new(year.to_i, month.to_i, day.to_i)
     
     # Put date in one of the ranges
     ranges.each do |key, range|
       if range.cover?(date)
-        output[key].push pin
+        data = {
+          'pin' => pin,
+          'first-grantee' => grantee
+        }
+        output[key].push data
         next
       end
     end
@@ -85,5 +86,4 @@ pins.each do |pin, values|
   end
 end
 
-puts output['2012q3']
-# puts output.to_json
+puts output.to_json
