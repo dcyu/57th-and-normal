@@ -37,3 +37,9 @@ h2 {
   bottom: 0;
   height: auto;
 }
+
+input[type="range"] {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}

@@ -85,4 +85,5 @@ pins.each do |pin, values|
   end
 end
 
-puts output.to_json
+puts output['2012q3']
+# puts output.to_json
