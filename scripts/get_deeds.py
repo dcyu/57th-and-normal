@@ -4,7 +4,7 @@ import os
 def main():
   
   pins = []
-  with open('PINS.csv', 'r') as f:
+  with open('data/PINS.csv', 'r') as f:
     lines = f.readlines()[0].split('\r')
     
     for line in lines:

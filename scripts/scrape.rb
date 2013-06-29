@@ -2,10 +2,12 @@
 require 'json'
 require 'nokogiri'
 require "awesome_print"
+require 'geocoder'
+require 'json'
 
 
 # Parse CSV for PINs
-pin_info = File.read("PINS.csv").split("\r").collect{ |row| row.split(',') }
+pin_info = File.read("data/PINS.csv").split("\r").collect{ |row| row.split(',') }
 
 # Create storage for data
 output = {}
@@ -17,8 +19,10 @@ columns = [nil, 'recorded-date', nil, 'type-desc', 'doc-number', 'first-grantor'
 pin_info.each_with_index do |row, index|
   next if index == 0
   pin = row[0]
+  address = row[1]
+  city = row[3]
   
-  doc = Nokogiri::HTML( File.open("#{pin}.html") )
+  doc = Nokogiri::HTML( File.open("data/#{pin}.html") )
   next if doc.nil?
   
   table = doc.css('table')[7]
@@ -26,7 +30,16 @@ pin_info.each_with_index do |row, index|
   
   tbody = table.css('tbody')[1]
   
-  output[pin] = []
+  # Storage for PIN
+  output[pin] = {}
+  
+  # Geocode
+  s = Geocoder.search("#{address}, #{city}")
+  output[pin]['lat'] = s[0].latitude
+  output[pin]['lon'] = s[0].longitude
+  output[pin]['address'] = s[0].address
+  output[pin]['deeds'] = []
+  
   tbody.css('tr').each do |tr|
     datum = {}
     tr.css('td').each_with_index do |td, index|
@@ -39,8 +52,11 @@ pin_info.each_with_index do |row, index|
       
       datum[column] = value
     end
-    output[pin].push datum
+    output[pin]['deeds'].push datum
   end
   
+  # To prevent geocoder from making too many requests
+  sleep 2
 end
-ap output
+
+puts output.to_json
