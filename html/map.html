@@ -10,8 +10,7 @@
   <link href='http://fonts.googleapis.com/css?family=Pathway+Gothic+One' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-  <script type="text/javascript" src="../js/leaflet/leaflet.js"></script>
-  
+  <script type="text/javascript" src="../js/leaflet/leaflet.js"></script>  
   <script src="../js/main.js"></script>
   
   <title>57th and Normal</title>
@@ -32,61 +31,6 @@
   </div>  
 
   <div id="map"></div>
-
-  <div class="hook">
-    <h2>
-      Intriguing morsel of information. <a href="#" id="link">Learn more.</a>
-    </h2>
-  </div>
-
-  <div class="container">
-
-    <div class="ocarousel" data-ocarousel-period="Infinity" >
-      <div class="ocarousel_window">
-
-        <div class="page">
-          <h1 class="title">Short</h1>
-
-          <iframe src="http://player.vimeo.com/video/59895906" width="550" height="309" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
-
-        </div>
-
-
-
-        <div class="page">
-          <h1 class="title"><a href="#" id="see-map">Map</a></h1>
-        </div>
-
-        <div class="page">
-          <h1 class="title">About</h1>
-        </div>
-
-        <div class="page">
-          <h1 class="title">Contact</h1>
-        </div>
-        
-      </div>
-
-      <a class="carousel-link left" href="#" data-ocarousel-link="left"><</a>
-      <a class="carousel-link right" href="#" data-ocarousel-link="right">></a>
-
-      <div class="ocarousel_indicators"></div>
-    </div>
-
-  </div>
-
-  <script>
-    $("#link").click(function() {
-      $(".hook").fadeOut("fast");
-    $(".container:hidden").fadeIn("slow");
-    });
-  </script>
-  <script>
-    $("#see-map").click(function() {
-      $(".container").fadeOut("fast");
-    $("#map:hidden").fadeIn("slow");
-    });
-  </script>
 
 </body>
 </html>
