@@ -1,0 +1,18 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    awesome_print (1.1.0)
+    geocoder (1.1.8)
+    json (1.8.0)
+    mini_portile (0.5.0)
+    nokogiri (1.6.0)
+      mini_portile (~> 0.5.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  awesome_print (~> 1.1.0)
+  geocoder (~> 1.1.8)
+  json
+  nokogiri (= 1.6.0)

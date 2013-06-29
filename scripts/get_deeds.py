@@ -4,7 +4,7 @@ import os
 def main():
   
   pins = []
-  with open('PINS.csv', 'r') as f:
+  with open('data/PINS.csv', 'r') as f:
     lines = f.readlines()[0].split('\r')
     
     for line in lines:
@@ -18,6 +18,9 @@ def main():
   f1.close()
   
   for pin in pins:
+    
+    if os.path.isfile("%s.html" % pin):
+      continue
     
     print pin
     numbers = pin.split('-')
