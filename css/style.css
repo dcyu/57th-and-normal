@@ -92,7 +92,7 @@ iframe {
 
 input[type="range"] {
   position: fixed;
-  bottom: 20px;
+  bottom: 200px;
   left: 20px;
 }
 .nav {

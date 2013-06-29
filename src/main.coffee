@@ -69,17 +69,17 @@ DOMReady = ->
   
   $.when(dfd1, dfd2).done(createVisualization)
   
-  $.getJSON('../scripts/data/intervals.json')
+  $.getJSON('../data/intervals.json')
     .done( (data) ->
       dfd1.resolve(data)
     )
   
-  $.getJSON('../scripts/data/deeds.json')
+  $.getJSON('../data/deeds.json')
     .done( (data) ->
       dfd2.resolve(data)
     )
   
-  $.getJSON('../scripts/data/englewood.geojson')
+  $.getJSON('../data/englewood.geojson')
     .done( (data) ->
       L.geoJson(data).addTo(map)
     )
