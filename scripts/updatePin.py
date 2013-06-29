@@ -19,6 +19,9 @@ def main():
   
   for pin in pins:
     
+    if os.path.isfile("%s.html" % pin):
+      continue
+    
     print pin
     numbers = pin.split('-')
     tmp = script.replace('AA', numbers[0])
