@@ -4,13 +4,20 @@ a {
 a:hover {
   text-decoration: underline;
 }
+#block img {
+  width: 80%;
+  padding-top: 50px;
+}
 body {
   width: 100%;
   height: 100%;
   position: absolute;
   top: 0;
   left: 0;
-
+}
+.border-bottom {
+  padding-bottom: 1em;
+  border-bottom: 3px solid #fff;
 }
 #buffer {
   width: 100%;
@@ -20,6 +27,13 @@ body {
   margin: 0;
   padding: 0;
   z-index: 90;
+}
+.comparison {
+  margin-top: 10em;
+}
+.comparison img {
+  width: 100%;
+  height: auto;
 }
 .cover {
   width: 100%;
@@ -143,6 +157,17 @@ font-size: 0.7em;
 .map-info span, .map-info a {
   color: #e6b262;
 }
+#transparent {
+  position: fixed;
+  background-color: #FAFAFA;
+  opacity: 0.3;
+/*  display:none;*/
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
 
 #scale {
   margin: 0 30px;
@@ -198,7 +223,10 @@ font-size: 0.7em;
   text-align: left;
   color: #eee;
   margin: 0 10%;
-  padding-top: 30px;
+  padding-top: 50px;
+}
+.subheading.about-column p {
+  width: 80%;
 }
 .subheading p a {
   color: #e6b262;
