@@ -104,7 +104,7 @@ createVisualization = (d1, d2) ->
 DOMReady = ->
   
   # Initialize map
-  map = L.map('map').setView([41.7922, -87.6378], 18)
+  map = L.map('map').setView([41.7922, -87.6378], 15)
   
   L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
