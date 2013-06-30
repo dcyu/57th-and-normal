@@ -11,29 +11,83 @@
   <link href='http://fonts.googleapis.com/css?family=PT+Serif' rel='stylesheet' type='text/css'>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
   <script type="text/javascript" src="../js/leaflet/leaflet.js"></script>
-  
   <script src="../js/main.js"></script>
+  <script src="../js/jquery.openCarousel.js"></script>
   
   <title>57th and Normal</title>
 </head>
 
 <body>
   <div class="nav">
-    <h1 class="logo"><a href="home.html">57th and Normal</a></h1>
+    <h1 class="logo"><a href="index.html">57th and Normal</a></h1>
     <ul class="nav-list">
-      <li><a href="short.html">Short</a></li>
-      <li><a href="map.html">Map</a></li>
+      <li><a href="index.html#buffer">Short</a></li>
+      <li><a href="map.html">Mapping the Paper Trail</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </div> 
 
   <div class="legend">
+    <label for="scale" id="scale-label">Travel through time</label>
+    <input type="range" min="0" max="20" step="1" value="0" id="scale">
+    <div class='interval'>
+      <p></p>
+    </div>
   </div>
 
   <div id="map"></div>
-    <label for="scale" id="scale-label">Travel through time</label>
-    <input type="range" min="0" max="20" step="1" value="0" id="scale">
+
+
+<div class="oo">
+  <div class="ocarousel" data-ocarousel-period="Infinity" >
+    <div class="ocarousel_window">
+
+      <p class="map-info">
+        Drag the timeline in the top right box to see the displacement as a reuslt of Norfolk Southern's expansion.
+      </h2>
+
+      <p class="map-info">The expansion of Norfolk Southern's intermodal yard into the Englewood neighborhood surrounding 57th & Normal will remove approximately 275 buildings, displacing approximately 400 families, and is nearly complete.  The history of the property acquisitions has not been transparent -- as the expansion does not involve any municipal transportation agencies, neither public meetings nor public input have been required.</p>
+
+      <p class="map-info">It is vitally important for area residents to understand the processes that have dismantled their community, and for the rest of to understand when and how an entire Chicago neighborhood disappeared.  This data visualization provides a tool to do so.</p>
+
+      <p class="map-info">Starting with insights from neighborhood residents, data was collected from public records to create this interactive timeline of the sale of properties to Norfolk Southern, including its myriad front entities, from 2005 to the present.</p>
+
+      <p class="map-info">Created by <span>Amit Kapadia</span>  and <span>Daniel Yu</span> at <em>Tribeca Hacks &lt;Data/Docs&gt;</em><br><br><a href="#" id="close">Close window.</a></p>
+
+    </div>
+
+      <a class="carousel-link left" id="next" href="#" data-ocarousel-link="left">←</a>
+      <a class="carousel-link right" id="next" href="#" data-ocarousel-link="right">→</a>
+
   </div>
+</div>
+
+  <script>
+    var replaceQuarter = function() {
+      $q1 = $('p:contains("q1")');
+      $q2 = $('p:contains("q2")');
+      $q3 = $('p:contains("q3")');
+      $q4 = $('p:contains("q4")');
+      $q1.text($q1.text().replace('q1', '') );
+      $q1.append("<br><em>January-March</em>");
+      $q2.text($q2.text().replace('q2', '') );
+      $q2.append("<br><em>April-June</em>");
+      $q3.text($q3.text().replace('q3', '') );
+      $q3.append("<br><em>July-September</em>");
+      $q4.text($q4.text().replace('q4', '') );
+      $q4.append("<br><em>October-December</em>");
+
+    };
+    setInterval(replaceQuarter, 1);
+
+  </script>
+
+  <script>
+    $("#close").click(function(){
+      $('.oo').fadeOut('slow');
+    });
+  </script>
+
 </body>
 </html>
