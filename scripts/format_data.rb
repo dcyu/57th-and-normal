@@ -5,7 +5,13 @@ require 'json'
 require 'date'
 require "awesome_print"
 
-pins = JSON.parse File.read("../data/deeds.json")
+deeds = JSON.parse File.read("data/deeds.json")
+addendum = JSON.parse File.read("data/addendum.json")
+
+deeds.merge!(addendum)
+
+File.open('../data/deeds.json', 'w') { |f| f.write(deeds.to_json) }
+
 
 dates = []
 
@@ -61,7 +67,7 @@ ranges = {
   '2013q4' => Date.new(2013, 10, 1)..Date.new(2013, 12, 31)
 }
 
-pins.each do |pin, values|
+deeds.each do |pin, values|
   values['deeds'].each do |deed|
     date = deed['recorded-date'].split('/')
     month = date[0]
@@ -86,4 +92,5 @@ pins.each do |pin, values|
   end
 end
 
-puts output.to_json
+File.open('../data/intervals.json', 'w') { |f| f.write(output.to_json) }
+ap output

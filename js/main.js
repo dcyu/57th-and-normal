@@ -33,9 +33,9 @@
     layers.blue.addTo(map);
     layers.red.addTo(map);
     return $("input[type='range']").on('change', function(e) {
-      var category, data, datum, deed, deeds, grantee, icon, interval, key, lat, layer, lon, obj, pin, s, value, _i, _j, _len, _len1, _results;
-      console.log(e);
+      var bounds, building, buildings, category, coordinate, data, datum, deeds, grantee, icon, interval, lat, layer, lon, obj, pin, _i, _len, _results;
       interval = intervals[e.target.value];
+      console.log(interval);
       $('.interval p').text(interval);
       layers.blue.clearLayers();
       data = d1[interval];
@@ -51,25 +51,35 @@
         lat = datum.lat;
         lon = datum.lon;
         deeds = datum.deeds;
-        s = "";
-        for (_j = 0, _len1 = deeds.length; _j < _len1; _j++) {
-          deed = deeds[_j];
-          for (key in deed) {
-            value = deed[key];
-            s += "" + pin + ", " + key + ", " + value;
-          }
-          s += "<br>";
+        if (category === 'red') {
+          buildings = layers.area.getLayers();
+          coordinate = new L.LatLng(lat, lon);
+          _results.push((function() {
+            var _j, _len1, _results1;
+            _results1 = [];
+            for (_j = 0, _len1 = buildings.length; _j < _len1; _j++) {
+              building = buildings[_j];
+              bounds = building.getBounds();
+              if (bounds.contains(coordinate)) {
+                _results1.push(building.setStyle({
+                  color: 'red'
+                }));
+              } else {
+                _results1.push(void 0);
+              }
+            }
+            return _results1;
+          })());
+        } else {
+          _results.push(void 0);
         }
-        _results.push(L.marker([lat, lon], {
-          icon: icon
-        }).addTo(layer).bindPopup(s));
       }
       return _results;
     });
   };
 
   DOMReady = function() {
-    var dfd1, dfd2;
+    var dfd1, dfd2, dfd3;
     map = L.map('map', {
       minZoom: 15,
       maxZoom: 18
@@ -77,7 +87,8 @@
     L.tileLayer('../tiles/{z}/{x}/{y}.png').addTo(map);
     dfd1 = new $.Deferred();
     dfd2 = new $.Deferred();
-    $.when(dfd1, dfd2).done(createVisualization);
+    dfd3 = new $.Deferred();
+    $.when(dfd1, dfd2, dfd3).done(createVisualization);
     $.getJSON('../data/intervals.json').done(function(data) {
       return dfd1.resolve(data);
     });
@@ -85,24 +96,26 @@
       return dfd2.resolve(data);
     });
     return $.getJSON('../data/the-area.geojson').done(function(data) {
-      var style;
+      var layer, style;
       style = {
         color: '#000',
         weight: 2,
         opacity: 1.0,
         fillOpacity: 0.2
       };
-      return L.geoJson(data, {
+      layer = L.geoJson(data, {
         style: style,
         onEachFeature: function(feature, layer) {
-          console.log(feature, layer);
           return layer.on('click', function(d) {
             return this.setStyle({
               color: 'red'
             });
           });
         }
-      }).addTo(map);
+      });
+      layer.addTo(map);
+      layers.area = layer;
+      return dfd3.resolve();
     });
   };
 
