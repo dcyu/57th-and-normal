@@ -54,10 +54,11 @@ createVisualization = (d1, d2) ->
   
   # Define callback for when slider is moved
   $("input[type='range']").on('change', (e) ->
-    console.log e
     
     # Look up interval based on index
     interval = intervals[e.target.value]
+    
+    console.log interval
     
     # Update text on page to show interval
     $('.interval p').text(interval)
@@ -74,6 +75,7 @@ createVisualization = (d1, d2) ->
       
       # Determine if the property owned by NS
       category = if grantee in NS then 'red' else 'blue'
+      
       icon = icons[category]
       layer = layers[category]
       
@@ -83,14 +85,24 @@ createVisualization = (d1, d2) ->
       lon = datum.lon
       deeds = datum.deeds
       
-      # Format deeds
-      s = ""
-      for deed in deeds
-        for key, value of deed
-          s += "#{pin}, #{key}, #{value}"
-        s += "<br>"
-      L.marker([lat, lon], icon: icon).addTo(layer)
-        .bindPopup(s)
+      if category is 'red'
+        # Get the area layer
+        buildings = layers.area.getLayers()
+        coordinate = new L.LatLng(lat, lon)
+        for building in buildings
+          # bounds = building.getBounds().pad(0.5)
+          bounds = building.getBounds()
+          if bounds.contains(coordinate)
+            building.setStyle({color: 'red'})
+      
+      # # Format deeds
+      # s = ""
+      # for deed in deeds
+      #   for key, value of deed
+      #     s += "#{pin}, #{key}, #{value}"
+      #   s += "<br>"
+      # L.marker([lat, lon], icon: icon).addTo(layer)
+      #   .bindPopup(s)
   )
   
 
@@ -108,8 +120,9 @@ DOMReady = ->
   # Two deferred objects for each JSON
   dfd1 = new $.Deferred()
   dfd2 = new $.Deferred()
+  dfd3 = new $.Deferred()
   
-  $.when(dfd1, dfd2).done(createVisualization)
+  $.when(dfd1, dfd2, dfd3).done(createVisualization)
   
   $.getJSON('../data/intervals.json')
     .done( (data) ->
@@ -129,20 +142,29 @@ DOMReady = ->
         weight: 2
         opacity: 1.0
         fillOpacity: 0.2
-      L.geoJson(data, {
+      
+      layer = L.geoJson(data, {
         style: style
         onEachFeature: (feature, layer) -> 
-          console.log feature, layer
           layer.on('click', (d) ->
-            
             @setStyle({color: 'red'})
-            # setTimeout ( ->
-            #   d.layer.options.color = 'red'
-            #   # console.log Object.keys(d)
-            # ), 1000
           )
-      }).addTo(map)
+      })
+      
+      layer.addTo(map)
+      layers.area = layer
+      dfd3.resolve()
     )
   
+  # DEBUGGING
+  # $.getJSON('../scripts/data/addendum.json')
+  #   .done( (data) ->
+  #     for pin, values of data
+  #       lat = values.lat
+  #       lon = values.lon
+  #       L.marker([lat, lon]).addTo(map)
+  #         .bindPopup("#{pin}:\t#{lat}, #{lon}")
+  #   )
+
 
 window.addEventListener('DOMContentLoaded', DOMReady, false)
