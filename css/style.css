@@ -12,16 +12,27 @@ body {
   left: 0;
 
 }
+.buffer {
+  width: 100%;
+  background-color: #000;
+  position: relative;
+  top: -10px;
+}
 .cover {
   width: 100%;
   position: absolute;
   left: 0;
   top: 0;
+  bottom: 0;
   z-index: 0;
+  margin: 0;
+  padding: 0;
 }
 .cover img {
   width: 100%;
   height: auto;
+  padding: 0;
+  margin: 0;
 }
 .carousel-link {
   font-size: 5em;
@@ -45,9 +56,6 @@ html {
   font-family: "PT Serif", Helvetica, sans-serif;
 }
 
-h2 {
-  margin-top: 100px;
-}
 .hook {
   background-image: url('../img/banner.png'); 
   position: fixed;
@@ -57,17 +65,20 @@ h2 {
   z-index: 5;
 }
 .hook h2 {
-  font-size: 3em;
+  font-size: 2em;
   font-weight: normal;
   color: #fff;
   margin: 0.5em;
+  text-align: center;
 }
 iframe {
-  position: absolute;
-  top: 10%;
-  left: 380px;
   z-index: 10;
+  width: 80%;
+  min-height: 80%;
+  margin: 30px 10% 0 10%;
+  padding: 0;
 }
+
 .left {
   left: 1em;
 }
@@ -124,7 +135,7 @@ iframe {
 
 
 .nav {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -153,6 +164,25 @@ iframe {
 }
 .right {
   right: 1em;
+}
+.subheading {
+  color: #e6b262;
+  text-align: center;
+  font-size: 3em;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 0em;
+}
+.subheading a {
+  color: #fff;
+}
+.subheading p {
+  font-size: 0.5em;
+  text-align: left;
+  color: #eee;
+  margin: 30px 10% 0 10%;
+}
+.subheading h2 {
 }
 .title {
   font-size: 5em;
