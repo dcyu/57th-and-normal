@@ -111,9 +111,10 @@ DOMReady = ->
   # Initialize map
   map = L.map('map', {minZoom: 15, maxZoom: 18}).setView([41.787148, -87.637666], 15)
   
-  # L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-  #     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-  # }).addTo(map)
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+      opacity: 0.25
+  }).addTo(map)
   
   L.tileLayer('../tiles/{z}/{x}/{y}.png').addTo(map)
   
