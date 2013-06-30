@@ -90,7 +90,7 @@
 
   DOMReady = function() {
     var dfd1, dfd2;
-    map = L.map('map').setView([41.7922, -87.6378], 15);
+    map = L.map('map').setView([41.7922, -87.6378], 18);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
@@ -104,7 +104,16 @@
       return dfd2.resolve(data);
     });
     return $.getJSON('../data/englewood.geojson').done(function(data) {
-      return L.geoJson(data).addTo(map);
+      var style;
+      style = {
+        color: '#000',
+        weight: 2,
+        opacity: 1.0,
+        fillOpacity: 0.2
+      };
+      return L.geoJson(data, {
+        style: style
+      }).addTo(map);
     });
   };
 
