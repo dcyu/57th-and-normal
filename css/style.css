@@ -35,6 +35,9 @@ body {
   width: 100%;
   height: auto;
 }
+.contact {
+  padding-bottom: 5em;
+}
 .cover {
   width: 100%;
   position: absolute;
@@ -124,7 +127,7 @@ iframe {
   background-color: rgba(0,0,0,0.8);
 }
 .legend em {
-font-size: 0.7em;
+font-size: 0.6em;
 }
 #link, #next {
   color: #e6b262;
