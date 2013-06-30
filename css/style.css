@@ -207,6 +207,15 @@ font-size: 0.6em;
 .nav-list li a {
   color: #fff;
 }
+.red, .blue {
+  margin-left: 20px;
+}
+.red {
+  color: red;
+}
+.blue {
+  color: blue;
+}
 .right {
   right: 50px;
 }
