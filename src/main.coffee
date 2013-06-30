@@ -1,10 +1,12 @@
 
 map = null
-markerLayer = null
-blueIcon = null
-redIcon = null
+
+layers = {}
+icons = {}
+
 
 intervals = ['2005', '2006', '2007', '2008', '2009', '2010q1', '2010q2', '2010q3', '2010q4', '2011q1', '2011q2', '2011q3', '2011q4', '2012q1', '2012q2', '2012q3', '2012q4', '2013q1', '2013q2', '2013q3', '2013q4']
+
 
 NS = [
   'NORFOLK SOUTHERN RAILWAY CO'
@@ -25,65 +27,56 @@ NS = [
 
 
 createLeafletIcons = ->
-  blueIcon = L.icon({
-    iconUrl: '../js/leaflet/images/button_blue.png'
-    iconSize: [25, 25]
-    iconAnchor: [12, 12]
+  icons.blue = L.icon({
+    # iconUrl: '../js/leaflet/images/button_blue.png'
+    iconUrl: '../js/leaflet/images/NonNSProperties.png'
+    iconSize: [12, 12]
+    iconAnchor: [6, 6]
   })
   
-  redIcon = L.icon({
-    iconUrl: '../js/leaflet/images/button_red.png'
-    iconSize: [25, 25]
-    iconAnchor: [12, 12]
+  icons.red = L.icon({
+    # iconUrl: '../js/leaflet/images/button_red.png'
+    iconUrl: '../js/leaflet/images/NSProperties.png'
+    iconSize: [12, 12]
+    iconAnchor: [6, 6]
   })
 
 createVisualization = (d1, d2) ->
   
   createLeafletIcons()
   
-  markerLayer = new L.LayerGroup()
+  # Create marker layers and add to map
+  layers.blue = new L.LayerGroup()
+  layers.red = new L.LayerGroup()
   
-  # Start at 2005
-  data = d1['2011q4']
+  layers.blue.addTo(map)
+  layers.red.addTo(map)
   
-  for obj in data
-    pin = obj.pin
-    
-    datum = d2[pin]
-    
-    lat = datum.lat
-    lon = datum.lon
-    
-    # Format deeds
-    deeds = datum.deeds
-    s = ""
-    for deed in deeds
-      for key, value of deed
-        s += "#{pin}, #{key}, #{value}"
-      s += "<br>"
-    L.marker([lat, lon], icon: blueIcon).addTo(markerLayer)
-      .bindPopup(s)
-  
-  markerLayer.addTo(map)
-  
+  # Define callback for when slider is moved
   $("input[type='range']").on('change', (e) ->
-    index = e.target.value
+    console.log e
     
-    interval = intervals[index]
+    # Look up interval based on index
+    interval = intervals[e.target.value]
     
+    # Update text on page to show interval
     $('.interval p').text(interval)
     
-    # Clear the layer
-    markerLayer.clearLayers()
+    # Clear only the blue layer
+    layers.blue.clearLayers()
     
-    # Get list of pins and loop
+    # Get list of pins and interval
     data = d1[interval]
     
     for obj in data
       pin = obj.pin
       grantee = obj['first-grantee']
       
-      icon = if grantee in NS then redIcon else blueIcon
+      # Determine if the property owned by NS
+      category = if grantee in NS then 'red' else 'blue'
+      icon = icons[category]
+      layer = layers[category]
+      
       datum = d2[pin]
       
       lat = datum.lat
@@ -96,7 +89,7 @@ createVisualization = (d1, d2) ->
         for key, value of deed
           s += "#{pin}, #{key}, #{value}"
         s += "<br>"
-      L.marker([lat, lon], icon: icon).addTo(markerLayer)
+      L.marker([lat, lon], icon: icon).addTo(layer)
         .bindPopup(s)
   )
   
@@ -104,11 +97,13 @@ createVisualization = (d1, d2) ->
 DOMReady = ->
   
   # Initialize map
-  map = L.map('map').setView([41.7922, -87.6378], 15)
+  map = L.map('map', {minZoom: 15, maxZoom: 18}).setView([41.787148, -87.637666], 15)
   
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map)
+  # L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+  #     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  # }).addTo(map)
+  
+  L.tileLayer('../tiles/{z}/{x}/{y}.png').addTo(map)
   
   # Two deferred objects for each JSON
   dfd1 = new $.Deferred()
@@ -126,37 +121,28 @@ DOMReady = ->
       dfd2.resolve(data)
     )
   
-  $.getJSON('../data/englewood.geojson')
+  # $.getJSON('../data/englewood.geojson')
+  $.getJSON('../data/the-area.geojson')
     .done( (data) ->
       style =
         color: '#000'
         weight: 2
         opacity: 1.0
         fillOpacity: 0.2
-      L.geoJson(data, {style: style}).addTo(map)
+      L.geoJson(data, {
+        style: style
+        onEachFeature: (feature, layer) -> 
+          console.log feature, layer
+          layer.on('click', (d) ->
+            
+            @setStyle({color: 'red'})
+            # setTimeout ( ->
+            #   d.layer.options.color = 'red'
+            #   # console.log Object.keys(d)
+            # ), 1000
+          )
+      }).addTo(map)
     )
-  
-  # $.getJSON('../scripts/data/deeds.json')
-  #   .done( (data) ->
-  #     pins = Object.keys(data)
-  #     
-  #     for pin in pins
-  #       datum = data[pin]
-  #       
-  #       # Get coordinates
-  #       lat = datum.lat
-  #       lon = datum.lon
-  #       
-  #       # Format deeds
-  #       deeds = datum.deeds
-  #       s = ""
-  #       for deed in deeds
-  #         for key, value of deed
-  #           s += "#{pin}, #{key}, #{value}"
-  #         s += "<br>"
-  #       L.marker([lat, lon]).addTo(map)
-  #         .bindPopup(s)
-  #   )
   
 
 window.addEventListener('DOMContentLoaded', DOMReady, false)

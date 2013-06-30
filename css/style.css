@@ -111,6 +111,19 @@ iframe {
   bottom: 0;
   z-index: 0;
 }
+
+#transparent {
+  position: fixed;
+  background-color: #FAFAFA;
+  opacity: 0.3;
+/*  display:none;*/
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
 #scale {
   z-index: 15;
   position: fixed;
